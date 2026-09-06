@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>STEPS Portal</title>
+
+    <!-- Registering service worker for caching -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            console.log("Trying to register service worker");
+            await navigator.serviceWorker.register('/service-worker.js');
+          } catch (error) {
+            // Deregister the old service worker when we can't load service-worker.js
+            // This is a slightly hacky way to avoid using the service worker during local development
+            console.log("Failed to load service worker: ", error);
+            console.log("Deregistering old worker");
+            (await navigator.serviceWorker.getRegistrations()).forEach(registration => registration.unregister());
+          }
+        });
+      }
+    </script>
+
+  </head>
+
+  <body>
+    <noscript>
+      This experience requires JavaScript and WebAssembly support.
+    </noscript>
+    <!-- Root element for React -->
+    <div id="root"></div>
+  </body>
+
+</html>

@@ -21,6 +21,34 @@ Inspired by [The Long-Term Evolution Experiment](https://the-ltee.org), Serially
 - For more portable libraries when compiling for Linux, the `crt-static` feature can be used
     - `RUSTFLAGS="[...] -C target-feature=+crt-static" cargo build [...] --target=x86_64-unknown-linux-gnu`
 
+## Building/running the Portal
+
+To test changes to the Portal while developing:
+```sh
+# in portal subdirectory
+$ npm install && npm run start
+```
+
+To test the production Portal build before pushing Portal changes:
+```sh
+# in portal subdirectory
+$ npm install && npm run start:prod
+```
+
+## Examples
+
+The `core/examples` directory contains self-contained programs that use STEPS as a library, each writing CSV to standard output:
+
+| Example | What it does |
+| --- | --- |
+| `fitness_trajectory` | Average fitness of each replicate after every transfer |
+
+Run one with `cargo run --release --example fitness_trajectory`, and redirect to a file to analyse the output:
+
+```
+cargo run --release --example fitness_trajectory > trajectory.csv
+```
+
 ## Building JOSS Paper
 
 To build the [paper submitted to JOSS regarding this project](https://github.com/openjournals/joss-reviews/issues/10300), run `./JOSS/generate_paper.sh` from the project root. This file is generated locally and not tracked. The latest generated version of this paper can be accessed as an artifact from the "Draft PDF" GitHub workflow in this repository.

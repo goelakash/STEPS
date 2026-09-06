@@ -1,0 +1,17 @@
+[package]
+name = "create_typescript_interface"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Proc macro generating TypeScript interface definitions for the STEPS portal adapter"
+
+[lib]
+proc-macro = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+proc-macro2 = "1.0.42"
+quote = "1.0.20"
+syn = { version = "1.0.98", features = ["parsing", "derive"] }
