@@ -23,7 +23,7 @@ fn main() {
         max_pop_size: 5e8,
     };
 
-    println!("replicate,transfer,marker_1_ratio,genotype_count");
+    println!("replicate,transfer,log2_marker_1_ratio,genotype_count");
 
     let mut handler = SimulationHandler::new(cfg, false);
 
@@ -34,11 +34,19 @@ fn main() {
         ..
     }) = handler.next_state()
     {
+        let log2_ratio = summarize::marker_1_ratio(lineages).log2();
+
+        // The log is undefined once either marked lineage is lost, so stop reporting that
+        // replicate rather than emitting an infinity
+        if !log2_ratio.is_finite() {
+            continue;
+        }
+
         println!(
             "{},{},{:.6},{}",
             replicate,
             transfer,
-            summarize::marker_1_ratio(lineages),
+            log2_ratio,
             summarize::genotype_count(lineages),
         );
     }
