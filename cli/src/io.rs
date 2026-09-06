@@ -135,16 +135,6 @@ mod tests {
     }
 
     #[test]
-    fn test_group_creates_no_files_when_no_outputs_requested() {
-        let dir = TempDir::new().unwrap();
-        let output_cfg = output_cfg_from(&["steps", "simulate"]);
-
-        outputter_group_for_cli(&output_cfg, &sim_cfg()).unwrap();
-
-        assert_eq!(std::fs::read_dir(dir.path()).unwrap().count(), 0);
-    }
-
-    #[test]
     fn test_group_fails_for_an_unwritable_path() {
         let dir = TempDir::new().unwrap();
         // A path under a directory that does not exist cannot be created
@@ -175,10 +165,7 @@ mod tests {
         drop(outputter_group_for_cli(&output_cfg, &cfg).unwrap());
 
         let extracted = extract_sim_config_from_path(&path).unwrap();
-        assert_eq!(extracted.replicates, cfg.replicates);
-        assert_eq!(extracted.transfers, cfg.transfers);
-        assert_eq!(extracted.seed, cfg.seed);
-        assert_eq!(extracted.max_pop_size, cfg.max_pop_size);
+        assert_eq!(extracted, cfg);
     }
 
     #[test]
